@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>would you rather JKT48V</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== GAME SCREEN ===================== -->
+  <div class="app-header">
+    <span class="brand"><span class="dot"></span>tester </span>
+    <button class="icon-btn" id="menuOpenBtn" aria-label="Buka daftar kategori">&#9776;</button>
+  </div>
+
+  <div id="game-area">
+    <div class="cat-tag" id="catTag">Memuat...</div>
+    <div class="progress-tag" id="progressTag"></div>
+
+    <div class="stack">
+      <div class="card-deck-bg second"></div>
+      <div class="card-deck-bg"></div>
+
+      <div class="main-card">
+        <p class="prompt-row">Aku lebih milih...</p>
+
+        <div class="choices">
+          <button class="choice top" id="choiceTop">
+            <div>
+              <div class="choice-label" id="labelTop"></div>
+              <div class="bar-track" id="barTrackTop"><div class="bar-fill" id="barFillTop"></div></div>
+              <div class="pct-label" id="pctTop"></div>
+            </div>
+          </button>
+
+          <div class="or-badge">atau</div>
+
+          <button class="choice bottom" id="choiceBottom">
+            <div>
+              <div class="choice-label" id="labelBottom"></div>
+              <div class="bar-track" id="barTrackBottom"><div class="bar-fill" id="barFillBottom"></div></div>
+              <div class="pct-label" id="pctBottom"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-row">
+      <span class="tally" id="tally"></span>
+      <button class="auto-pill" id="autoPill"></button>
+    </div>
+  </div>
+
+  <!-- ===================== MENU SCREEN ===================== -->
+  <div id="menu-screen">
+    <div class="sheet-handle"></div>
+    <div class="menu-header">
+      <h2>Semua kategori</h2>
+      <button class="icon-btn" id="menuCloseBtn" aria-label="Tutup">&#10005;</button>
+    </div>
+    <div class="menu-list" id="menuList"></div>
+    <button class="add-fab" id="addCatBtn" aria-label="Tambah kategori baru">+</button>
+  </div>
+
+  <!-- ===================== FORM SCREEN ===================== -->
+  <div id="form-screen">
+    <div class="sheet-handle"></div>
+    <div class="menu-header">
+      <h2 id="formTitle">Kategori baru</h2>
+      <button class="icon-btn" id="formCloseBtn" aria-label="Batal">&#10005;</button>
+    </div>
+    <div class="form-body">
+      <div class="field-label">Emoji &amp; nama kategori</div>
+      <div class="field-row">
+        <input type="text" class="emoji-input" id="catEmojiInput" maxlength="4" placeholder="🎯">
+        <input type="text" class="name-input" id="catNameInput" placeholder="Nama kategori (contoh: Olahraga)">
+      </div>
+
+      <div class="field-label">Pertanyaan</div>
+      <div id="questionList"></div>
+      <button class="add-q-btn" id="addQuestionBtn">+ Tambah pertanyaan</button>
+      <p class="hint-text">Minimal 1 pertanyaan dengan dua pilihan terisi untuk bisa disimpan.</p>
+    </div>
+    <div class="save-bar">
+      <button class="save-btn" id="saveBtn">Simpan kategori</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="data.js"></script>
+<script src="script.js?v=2"></script>
+</body>
+</html>
