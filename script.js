@@ -122,20 +122,7 @@ function resetCardVisual() {
   answered = false;
 }
 
-function pickQuestion() {
-  clearAutoAdvance();
-  const cat = getCategoryById(currentCatId);
-
-  if (!cat || !cat.questions || cat.questions.length === 0) {
-    labelTop.textContent = "Belum ada kategori";
-    labelBottom.textContent = "Ketuk ☰ untuk menambah kategori baru";
-    catTag.textContent = "Kosong";
-    progressTag.textContent = "";
-    current = null;
-    resetCardVisual();
-    return;
-  }
-
+function applyNewQuestion(cat) {
   if (!order[currentCatId] || order[currentCatId].length !== cat.questions.length) {
     resetCategoryProgress(currentCatId);
   }
@@ -153,6 +140,45 @@ function pickQuestion() {
   progressTag.textContent = position[currentCatId] + " / " + cat.questions.length;
 
   resetCardVisual();
+}
+
+function pickQuestion(skipAnimation) {
+  clearAutoAdvance();
+  const cat = getCategoryById(currentCatId);
+
+  if (!cat || !cat.questions || cat.questions.length === 0) {
+    labelTop.textContent = "Belum ada kategori";
+    labelBottom.textContent = "Ketuk ☰ untuk menambah kategori baru";
+    catTag.textContent = "Kosong";
+    progressTag.textContent = "";
+    current = null;
+    resetCardVisual();
+    return;
+  }
+
+  if (skipAnimation || !current) {
+    applyNewQuestion(cat);
+    return;
+  }
+
+  // Swipe out current cards
+  choiceTop.classList.add('swipe-out-left');
+  choiceBottom.classList.add('swipe-out-right');
+
+  setTimeout(() => {
+    // Remove swipe-out, hide cards, update content
+    choiceTop.classList.remove('swipe-out-left');
+    choiceBottom.classList.remove('swipe-out-right');
+    applyNewQuestion(cat);
+
+    // Swipe in new cards
+    choiceTop.classList.add('swipe-in-left');
+    choiceBottom.classList.add('swipe-in-right');
+    setTimeout(() => {
+      choiceTop.classList.remove('swipe-in-left');
+      choiceBottom.classList.remove('swipe-in-right');
+    }, 450);
+  }, 380);
 }
 
 /* Hitung % berdasarkan vote sungguhan di Supabase */
@@ -259,7 +285,7 @@ function renderMenu() {
       resetCategoryProgress(currentCatId);
       renderMenu();
       closeMenu();
-      pickQuestion();
+      pickQuestion(true);
     });
     card.appendChild(main);
 
@@ -300,7 +326,7 @@ function renderMenu() {
         resetCategoryProgress(currentCatId);
       }
       renderMenu();
-      pickQuestion();
+      pickQuestion(true);
     });
     actions.appendChild(delBtn);
 
@@ -440,7 +466,7 @@ saveBtn.addEventListener('click', async () => {
     closeForm();
     renderMenu();
     resetCategoryProgress(currentCatId);
-    pickQuestion();
+    pickQuestion(true);
   } catch (err) {
     console.error('Gagal menyimpan kategori:', err);
     window.alert('Gagal menyimpan kategori. Coba lagi.');
@@ -468,7 +494,7 @@ async function init() {
   }
 
   currentCatId = categories.length > 0 ? categories[0].id : null;
-  pickQuestion();
+  pickQuestion(true);
 }
 
 init();
