@@ -170,7 +170,9 @@ html, body {
   padding: 0 4px;
   min-height: 0;
   gap: 0;
+  overflow: visible;
 }
+
 
 .prompt-row {
   font-size: 13px;
