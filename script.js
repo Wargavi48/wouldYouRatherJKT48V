@@ -230,10 +230,10 @@ async function choose(which) {
     autoPill.classList.add('show');
 
     let secondsLeft = 10;
-    autoPill.textContent = 'Lanjut dalam ' + secondsLeft + ' detik';
+    autoPill.textContent = 'Klik untuk next atau lanjut dalam' + secondsLeft + ' detik';
     countdownInterval = setInterval(() => {
       secondsLeft--;
-      if (secondsLeft > 0) autoPill.textContent = 'Lanjut dalam ' + secondsLeft + ' detik';
+      if (secondsLeft > 0) autoPill.textContent = 'Klik untuk next atau lanjut dalam ' + secondsLeft + ' detik';
     }, 1000);
     autoAdvanceTimer = setTimeout(() => {
       clearAutoAdvance();

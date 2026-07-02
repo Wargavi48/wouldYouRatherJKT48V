@@ -368,6 +368,7 @@ html, body {
 .footer-row {
   flex-shrink: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -395,6 +396,7 @@ html, body {
   display: none;
   font-family: inherit;
   min-width: 150px;
+  white-space: nowrap;
 }
 .auto-pill.show { display: block; }
 
