@@ -348,16 +348,19 @@ bgMusic.volume = volumeSlider.value / 100;
 loadTrack(0, false);
 
 function startMusicOnFirstInteraction() {
-  bgMusic.play().catch(err => console.error('Gagal memutar musik:', err));
-  document.removeEventListener('click', startMusicOnFirstInteraction);
-  document.removeEventListener('touchstart', startMusicOnFirstInteraction);
-  document.removeEventListener('keydown', startMusicOnFirstInteraction);
+  bgMusic.play()
+    .then(() => {
+      document.removeEventListener('click', startMusicOnFirstInteraction);
+      document.removeEventListener('touchstart', startMusicOnFirstInteraction);
+      document.removeEventListener('keydown', startMusicOnFirstInteraction);
+    })
+    .catch(err => console.error('Gagal memutar musik:', err));
 }
 
 bgMusic.play().catch(() => {
-  document.addEventListener('click', startMusicOnFirstInteraction, { once: true });
-  document.addEventListener('touchstart', startMusicOnFirstInteraction, { once: true });
-  document.addEventListener('keydown', startMusicOnFirstInteraction, { once: true });
+  document.addEventListener('click', startMusicOnFirstInteraction);
+  document.addEventListener('touchstart', startMusicOnFirstInteraction);
+  document.addEventListener('keydown', startMusicOnFirstInteraction);
 });
 
 updateMusicIcons();
