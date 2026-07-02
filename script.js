@@ -229,7 +229,7 @@ async function choose(which) {
     tally.classList.add('show');
     autoPill.classList.add('show');
 
-    let secondsLeft = 3;
+    let secondsLeft = 10;
     autoPill.textContent = 'Lanjut dalam ' + secondsLeft + ' detik';
     countdownInterval = setInterval(() => {
       secondsLeft--;
@@ -238,13 +238,129 @@ async function choose(which) {
     autoAdvanceTimer = setTimeout(() => {
       clearAutoAdvance();
       pickQuestion();
-    }, 3000);
+    }, 10000);
   }, 250);
 }
 
 choiceTop.addEventListener('click', () => choose('top'));
 choiceBottom.addEventListener('click', () => choose('bottom'));
 autoPill.addEventListener('click', pickQuestion);
+
+/* ============== MUSIK ============== */
+const bgMusic = document.getElementById('bgMusic');
+const musicWrap = document.getElementById('musicWrap');
+const musicToggleBtn = document.getElementById('musicToggleBtn');
+const volumePopover = document.getElementById('volumePopover');
+const volumeSlider = document.getElementById('volumeSlider');
+const nextSongBtn = document.getElementById('nextSongBtn');
+
+/* ---- Daftar lagu (playlist) ----
+   Tambahkan lagu baru dengan menambah baris baru di array ini.
+   Urutan pemutaran sesuai urutan di array. Setelah lagu terakhir
+   selesai, otomatis kembali ke lagu pertama (loop playlist). */
+const musicPlaylist = [
+  'Asset/Dreamcatcher_inst_v2.mp3',
+  'Asset/Suatu Saat Bertemu (Instrumental).mp3'
+];
+
+let currentTrackIndex = 0;
+let musicMuted = false;
+let hoverHideTimer = null;
+
+function loadTrack(index, autoplay) {
+  currentTrackIndex = (index + musicPlaylist.length) % musicPlaylist.length;
+  bgMusic.src = musicPlaylist[currentTrackIndex];
+  if (autoplay) {
+    bgMusic.play().catch(err => console.error('Gagal memutar musik:', err));
+  }
+}
+
+function playNextTrack() {
+  loadTrack(currentTrackIndex + 1, true);
+}
+
+function updateMusicIcons() {
+  const showMuted = musicMuted || Number(volumeSlider.value) === 0;
+  musicToggleBtn.innerHTML = showMuted ? '&#128263;' : '&#127925;';
+  musicToggleBtn.classList.toggle('playing', !showMuted);
+}
+
+/* Klik tombol musik = toggle mute */
+musicToggleBtn.addEventListener('click', () => {
+  musicMuted = !musicMuted;
+  bgMusic.muted = musicMuted;
+  updateMusicIcons();
+});
+
+/* Lagu berikutnya (manual skip) */
+nextSongBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  playNextTrack();
+});
+
+/* Saat lagu selesai, otomatis lanjut ke lagu berikutnya (loop ke awal jika sudah lagu terakhir) */
+bgMusic.addEventListener('ended', playNextTrack);
+
+/* Kursor mendekat ke tombol musik -> tampilkan slider volume (desktop) */
+musicWrap.addEventListener('mouseenter', () => {
+  clearTimeout(hoverHideTimer);
+  volumePopover.classList.add('open');
+});
+musicWrap.addEventListener('mouseleave', () => {
+  hoverHideTimer = setTimeout(() => volumePopover.classList.remove('open'), 250);
+});
+
+/* Fallback untuk layar sentuh: tekan-tahan tombol musik untuk buka slider volume */
+let touchHoldTimer = null;
+let isTouchHold = false;
+musicToggleBtn.addEventListener('touchstart', () => {
+  isTouchHold = false;
+  touchHoldTimer = setTimeout(() => {
+    isTouchHold = true;
+    volumePopover.classList.add('open');
+  }, 350);
+});
+musicToggleBtn.addEventListener('touchend', (e) => {
+  clearTimeout(touchHoldTimer);
+  if (isTouchHold) e.preventDefault();
+});
+
+volumeSlider.addEventListener('click', (e) => e.stopPropagation());
+volumeSlider.addEventListener('input', () => {
+  const val = Number(volumeSlider.value);
+  bgMusic.volume = val / 100;
+  musicMuted = val === 0;
+  bgMusic.muted = musicMuted;
+  updateMusicIcons();
+});
+
+document.addEventListener('click', (e) => {
+  if (!musicWrap.contains(e.target)) {
+    volumePopover.classList.remove('open');
+  }
+});
+
+/* Coba putar otomatis saat halaman dibuka.
+   Kalau browser memblokir autoplay bersuara, musik akan mulai
+   otomatis begitu pengguna melakukan interaksi pertama (klik/tap/keydown
+   di mana saja di halaman) - ini batasan kebijakan browser, bukan bug. */
+bgMusic.volume = volumeSlider.value / 100;
+loadTrack(0, false);
+
+function startMusicOnFirstInteraction() {
+  bgMusic.play().catch(err => console.error('Gagal memutar musik:', err));
+  document.removeEventListener('click', startMusicOnFirstInteraction);
+  document.removeEventListener('touchstart', startMusicOnFirstInteraction);
+  document.removeEventListener('keydown', startMusicOnFirstInteraction);
+}
+
+bgMusic.play().catch(() => {
+  document.addEventListener('click', startMusicOnFirstInteraction, { once: true });
+  document.addEventListener('touchstart', startMusicOnFirstInteraction, { once: true });
+  document.addEventListener('keydown', startMusicOnFirstInteraction, { once: true });
+});
+
+updateMusicIcons();
 
 /* ============== MENU KATEGORI ============== */
 const menuScreen = document.getElementById('menu-screen');

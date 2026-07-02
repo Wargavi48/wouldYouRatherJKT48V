@@ -1,5 +1,3 @@
-
-
 const SUPABASE_URL = "https://fdtyqedfutktfjvritpw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkdHlxZWRmdXRrdGZqdnJpdHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3OTE2NTAsImV4cCI6MjA5ODM2NzY1MH0.0d5IHndurQP8tOJk3Gk5s8gVMKO76eAAJGsAAJs6JIs";
 

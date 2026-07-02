@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pilih Salah Satu</title>
-<link rel="stylesheet" href="style.css?v=14">
+<title>Would You Rather JKT48V</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -14,7 +14,16 @@
   <div id="game-area">
     <div class="top-bar">
       <div class="cat-tag" id="catTag">Memuat...</div>
-      <button class="icon-btn" id="menuOpenBtn" aria-label="Buka daftar kategori">&#9776;</button>
+      <div class="top-bar-actions">
+        <button class="icon-btn" id="menuOpenBtn" aria-label="Buka daftar kategori">&#9776;</button>
+        <div class="music-wrap" id="musicWrap">
+          <button class="icon-btn" id="musicToggleBtn" aria-label="Bisukan/aktifkan musik">&#127925;</button>
+          <div class="volume-popover" id="volumePopover">
+            <button class="mute-btn" id="nextSongBtn" aria-label="Lagu berikutnya">&#9197;</button>
+            <input type="range" id="volumeSlider" min="0" max="100" value="50" aria-label="Volume musik">
+          </div>
+        </div>
+      </div>
     </div>
     <div class="arena">
       <div class="progress-tag" id="progressTag"></div>
@@ -85,6 +94,7 @@
 
 </div>
 
+<audio id="bgMusic" preload="auto"></audio>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="data.js"></script>
