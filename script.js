@@ -1,8 +1,3 @@
-/* ============== DATA LAYER (Supabase) ==============
-   Semua kategori, pertanyaan, dan vote disimpan permanen di Supabase
-   dan terlihat oleh semua pengunjung. File ini menggantikan storage
-   in-memory versi sebelumnya. */
-
 let categories = [];     // [{id, emoji, name, questions:[{id, a, b}]}]
 let currentCatId = null;
 let order = {};      // catId -> shuffled array of question indices

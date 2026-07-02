@@ -41,7 +41,21 @@ html, body {
   flex-direction: column;
 }
 
-/* On desktop: limit the top bar width and center it, but let cards fill screen */
+@media (max-width: 699px) {
+  .top-bar    { padding: 3vw 4vw 0; }
+  .cat-tag    { font-size: 3vw; padding: 1.5vw 4vw; }
+  .icon-btn   { width: 9vw; height: 9vw; font-size: 4vw; border-radius: 2.5vw; }
+  .progress-tag { font-size: 3vw; padding: 1vw 4vw; margin: 2vw auto 2vw; }
+  .prompt-row { font-size: 3vw; padding: 1.5vw 5vw; margin: 0 0 2.5vw; }
+  .arena      { padding: 4vw 3vw 0; }
+  .cards-row  { gap: 3vw; max-height: 55vw; }
+  .card-choice { border-radius: 5vw; padding: 4vw 3vw; }
+  .choice-label { font-size: 3.8vw; }
+  .footer-row { padding-top: 3vw; }
+  .auto-pill  { font-size: 3vw; padding: 2vw 5vw; }
+  .tally      { font-size: 2.8vw; }
+}
+
 @media (min-width: 700px) {
   .top-bar {
     max-width: 860px;
@@ -49,32 +63,17 @@ html, body {
     margin-right: auto;
     width: 100%;
   }
-  .progress-tag {
-    text-align: center;
-  }
-  .arena {
-    padding: 0 40px;
-  }
-  .cards-row {
-    max-height: 600px;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .footer-row {
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-  }
+  .progress-tag { text-align: center; }
+  .arena        { padding: 0 40px; }
+  .cards-row    { max-height: 580px; max-width: 900px; margin: 0 auto; width: 100%; }
+  .footer-row   { max-width: 900px; margin-left: auto; margin-right: auto; width: 100%; }
 }
 
-/* ---------- TOP BAR ---------- */
 .top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 20px 0;
+  padding: 14px 16px 0;
   flex-shrink: 0;
 }
 
@@ -106,7 +105,9 @@ html, body {
   padding: 7px 18px;
   border-radius: 999px;
   flex-shrink: 1;
-  min-width: 0;
+  flex-grow: 0;
+  width: fit-content;
+  max-width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -114,7 +115,7 @@ html, body {
 
 .progress-tag {
   align-self: center;
-  margin: 8px auto 14px;
+  margin: 8px auto 12px;
   font-size: 12px;
   font-weight: 700;
   color: var(--ink-soft);
@@ -126,33 +127,31 @@ html, body {
   border-radius: 999px;
 }
 
-
-/* ---------- GAME AREA ---------- */
 #game-area {
   flex: 1;
   position: relative;
-  padding: 0 6px 14px;
+  padding: 0 10px 10px;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
-/* ---------- SWIPE ANIMATIONS ---------- */
 @keyframes swipeOutLeft {
-  from { transform: rotate(-3deg) translateX(0)   scale(1);    opacity: 1; }
+  from { transform: rotate(-3deg) translateX(0) scale(1); opacity: 1; }
   to   { transform: rotate(-18deg) translateX(-120%) scale(0.85); opacity: 0; }
 }
 @keyframes swipeOutRight {
-  from { transform: rotate(2.5deg) translateX(0)  scale(1);    opacity: 1; }
-  to   { transform: rotate(18deg)  translateX(120%) scale(0.85); opacity: 0; }
+  from { transform: rotate(2.5deg) translateX(0) scale(1); opacity: 1; }
+  to   { transform: rotate(18deg) translateX(120%) scale(0.85); opacity: 0; }
 }
 @keyframes swipeInLeft {
   from { transform: rotate(-3deg) translateX(-80%) scale(0.9); opacity: 0; }
-  to   { transform: rotate(-3deg) translateX(0)   scale(1);   opacity: 1; }
+  to   { transform: rotate(-3deg) translateX(0) scale(1); opacity: 1; }
 }
 @keyframes swipeInRight {
   from { transform: rotate(2.5deg) translateX(80%) scale(0.9); opacity: 0; }
-  to   { transform: rotate(2.5deg) translateX(0)  scale(1);   opacity: 1; }
+  to   { transform: rotate(2.5deg) translateX(0) scale(1); opacity: 1; }
 }
 
 .card-choice.swipe-out-left  { animation: swipeOutLeft  0.38s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
@@ -160,26 +159,24 @@ html, body {
 .card-choice.swipe-in-left   { animation: swipeInLeft   0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .card-choice.swipe-in-right  { animation: swipeInRight  0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-/* ---------- ARENA (two-card side by side) ---------- */
 .arena {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0 4px;
+  justify-content: flex-start;
+  padding: 18px 4px 0;
   min-height: 0;
   gap: 0;
   overflow: visible;
 }
-
 
 .prompt-row {
   font-size: 13px;
   font-style: italic;
   font-weight: 600;
   color: var(--ink-soft);
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   text-align: center;
   letter-spacing: 0.02em;
   background: var(--card-paper);
@@ -188,19 +185,23 @@ html, body {
   border-radius: 999px;
   display: inline-block;
   align-self: center;
+  flex-shrink: 0;
 }
 
 .cards-row {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   flex: 1;
   min-height: 0;
-  max-height: 560px;
+  max-height: 55vw;
   align-items: stretch;
 }
 
-/* Individual choice card */
+@media (min-width: 700px) {
+  .cards-row { max-height: 580px; }
+}
+
 .card-choice {
   flex: 1;
   display: flex;
@@ -219,8 +220,7 @@ html, body {
 }
 .card-choice:active { opacity: 0.92; }
 
-/* Tilt + overlap: left overlaps right */
-.card-choice.left  {
+.card-choice.left {
   background: var(--accent-1-soft);
   border-color: rgba(255,107,74,0.3);
   transform: rotate(-3deg);
@@ -249,14 +249,11 @@ html, body {
   color: var(--ink);
 }
 
-/* revealed / picked states */
 .card-choice.revealed.left  { background: var(--accent-1-soft); }
 .card-choice.revealed.right { background: var(--accent-2-soft); }
 .card-choice.picked.left  { background: var(--accent-1); border-color: var(--accent-1); transform: rotate(-3deg) scale(1.04); box-shadow: 0 16px 32px -8px rgba(255,107,74,0.45); z-index: 3; }
 .card-choice.picked.right { background: var(--accent-2); border-color: var(--accent-2); transform: rotate(2.5deg) scale(1.04); box-shadow: 0 16px 32px -8px rgba(45,110,126,0.45); z-index: 3; }
 .card-choice.picked .choice-label { color: #fffdf8; }
-
-
 
 .bar-track {
   width: 100%;
@@ -276,7 +273,7 @@ html, body {
   width: 0%;
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.card-choice.left .bar-fill { background: var(--accent-1); }
+.card-choice.left .bar-fill  { background: var(--accent-1); }
 .card-choice.right .bar-fill { background: var(--accent-2); }
 .card-choice.picked .bar-fill { background: #fffdf8; }
 
@@ -324,7 +321,6 @@ html, body {
 }
 .auto-pill.show { display: block; }
 
-/* ---------- MENU SCREEN ---------- */
 #menu-screen,
 #form-screen {
   position: fixed;
@@ -338,9 +334,8 @@ html, body {
 #menu-screen { z-index: 40; }
 #form-screen  { z-index: 50; }
 #menu-screen.open,
-#form-screen.open  { display: flex; }
+#form-screen.open { display: flex; }
 
-/* Blur overlay */
 #menu-screen::before,
 #form-screen::before {
   content: '';
@@ -357,7 +352,6 @@ html, body {
 #menu-screen.open::before,
 #form-screen.open::before { opacity: 1; pointer-events: auto; }
 
-/* The actual panel — centered, fades + slides in */
 .menu-panel,
 .form-panel {
   background: var(--bg-deep);
@@ -374,7 +368,7 @@ html, body {
   box-shadow: 0 24px 60px -10px rgba(42,38,32,0.28);
 }
 #menu-screen.open .menu-panel,
-#form-screen.open  .form-panel  { transform: translateY(0); opacity: 1; }
+#form-screen.open .form-panel { transform: translateY(0); opacity: 1; }
 
 .sheet-handle {
   width: 40px;
@@ -426,57 +420,18 @@ html, body {
   text-align: left;
   font-family: inherit;
 }
-.cat-card-main .emoji {
-  font-size: 22px;
-  width: 30px;
-  text-align: center;
-  flex-shrink: 0;
-}
-.cat-card-main .name {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ink);
-  flex: 1;
-  min-width: 0;
-  overflow-wrap: break-word;
-}
+.cat-card-main .emoji { font-size: 22px; width: 30px; text-align: center; flex-shrink: 0; }
+.cat-card-main .name  { font-size: 16px; font-weight: 700; color: var(--ink); flex: 1; min-width: 0; overflow-wrap: break-word; }
 .cat-card.active-cat .cat-card-main .name { color: var(--accent-1); }
-.cat-card-main .qcount {
-  font-size: 11px;
-  color: var(--ink-soft);
-  font-weight: 600;
-  background: var(--bg-deep);
-  padding: 3px 8px;
-  border-radius: 999px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
+.cat-card-main .qcount { font-size: 11px; color: var(--ink-soft); font-weight: 600; background: var(--bg-deep); padding: 3px 8px; border-radius: 999px; flex-shrink: 0; white-space: nowrap; }
 
-.cat-card-actions {
-  display: flex;
-  border-top: 1.5px solid var(--line);
-}
-.cat-card-actions button {
-  flex: 1;
-  background: none;
-  border: none;
-  padding: 11px 0;
-  font-size: 12.5px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  color: var(--ink-soft);
-}
+.cat-card-actions { display: flex; border-top: 1.5px solid var(--line); }
+.cat-card-actions button { flex: 1; background: none; border: none; padding: 11px 0; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; color: var(--ink-soft); }
 .cat-card-actions button:first-child { border-right: 1.5px solid var(--line); }
 .cat-card-actions button.danger { color: #c0432e; }
 .cat-card-actions button:active { background: rgba(0,0,0,0.04); }
 
-.empty-state {
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--ink-soft);
-  font-size: 14px;
-}
+.empty-state { padding: 40px 20px; text-align: center; color: var(--ink-soft); font-size: 14px; }
 
 .add-fab {
   position: absolute;
@@ -499,13 +454,7 @@ html, body {
 }
 .add-fab:active { transform: scale(0.95); }
 
-/* ---------- FORM BODY ---------- */
-
-.form-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 20px 100px;
-}
+.form-body { flex: 1; overflow-y: auto; padding: 16px 20px 100px; }
 
 .field-label {
   font-size: 11px;
@@ -516,14 +465,7 @@ html, body {
   margin: 18px 0 8px;
 }
 
-/* PERBAIKAN BUG: field-row pakai flex, jadi input di dalamnya HARUS
-   pakai flex-basis/flex-grow (bukan width:100%) supaya tidak overflow
-   keluar dari container dan hilang dari tampilan seperti sebelumnya. */
-.field-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
+.field-row { display: flex; gap: 10px; align-items: flex-start; }
 
 input[type="text"] {
   background: var(--card-paper);
@@ -536,94 +478,22 @@ input[type="text"] {
   font-family: inherit;
   min-width: 0;
 }
-input[type="text"]:focus { border-color: var(--accent-1); }
+input[type="text"]:focus    { border-color: var(--accent-1); }
 input[type="text"]:disabled { color: var(--ink-soft); background: #f1ede4; cursor: not-allowed; }
 
-/* Input emoji: lebar tetap, tidak ikut tumbuh/menyusut */
-.emoji-input {
-  flex: 0 0 58px;
-  width: 58px;
-  text-align: center;
-  font-size: 19px;
-}
+.emoji-input { flex: 0 0 58px; width: 58px; text-align: center; font-size: 19px; }
+.name-input  { flex: 1 1 auto; width: auto; }
+.form-body > input[type="text"] { width: 100%; }
 
-/* Input nama kategori: mengisi sisa ruang di field-row */
-.name-input {
-  flex: 1 1 auto;
-  width: auto;
-}
-
-/* Field tunggal di luar field-row (kalau ada) tetap selebar penuh */
-.form-body > input[type="text"] {
-  width: 100%;
-}
-
-.q-block {
-  background: var(--card-paper);
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
-  position: relative;
-}
-.q-block .q-num {
-  font-size: 11px;
-  color: var(--ink-soft);
-  font-weight: 700;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+.q-block { background: var(--card-paper); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 12px; position: relative; }
+.q-block .q-num { font-size: 11px; color: var(--ink-soft); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
 .q-block input { width: 100%; margin-bottom: 8px; }
 .q-block input:last-of-type { margin-bottom: 0; }
-.q-remove-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: none;
-  border: none;
-  color: var(--ink-soft);
-  font-size: 15px;
-  cursor: pointer;
-  font-family: inherit;
-}
+.q-remove-btn { position: absolute; top: 10px; right: 12px; background: none; border: none; color: var(--ink-soft); font-size: 15px; cursor: pointer; font-family: inherit; }
 
-.add-q-btn {
-  width: 100%;
-  padding: 12px;
-  background: none;
-  border: 1.5px dashed var(--line);
-  color: var(--ink-soft);
-  border-radius: 12px;
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 8px;
-  font-family: inherit;
-}
+.add-q-btn { width: 100%; padding: 12px; background: none; border: 1.5px dashed var(--line); color: var(--ink-soft); border-radius: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-bottom: 8px; font-family: inherit; }
 
-.save-bar {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 14px 20px;
-  background: var(--bg-deep);
-  border-top: 1.5px solid var(--line);
-}
-.save-btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--ink);
-  color: var(--bg-deep);
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
+.save-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 20px; background: var(--bg-deep); border-top: 1.5px solid var(--line); }
+.save-btn  { width: 100%; padding: 14px; background: var(--ink); color: var(--bg-deep); border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-.hint-text {
-  font-size: 12px;
-  color: var(--ink-soft);
-  margin-top: 4px;
-}
+.hint-text { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }

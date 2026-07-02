@@ -1,8 +1,3 @@
-/* ============== DATA DEFAULT ==============
-   File ini berisi data kategori bawaan saja.
-   Untuk menambah kategori bawaan baru lewat kode (bukan lewat UI),
-   tinggal tambahkan objek baru di array ini dengan format yang sama. */
-
 const defaultCategories = [
   { id: "daily", emoji: "🤔", name: "Sehari-hari", questions: [
     ["Harus menjilati diri sendiri sampai bersih seperti kucing", "Hanya boleh mandi sekali sebulan"],
